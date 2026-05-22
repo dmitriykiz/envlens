@@ -6,6 +6,8 @@
 //     passwords, tokens, or credentials that should never be committed.
 //   - Missing keys: keys present in a reference set (e.g. .env.example) that
 //     are absent from the file under inspection.
+//   - Empty values: keys that are defined but have no associated value,
+//     which may indicate incomplete configuration.
 //
 // Typical usage:
 //
@@ -20,4 +22,5 @@
 //	}
 //	result := analyzer.Analyze(".env", entries, refKeys)
 //	fmt.Println(result.Missing)
+//	fmt.Println(result.Empty)
 package analyzer
