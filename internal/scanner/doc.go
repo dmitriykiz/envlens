@@ -19,6 +19,14 @@
 //		fmt.Printf("%s: %d keys\n", r.Path, len(r.Entries))
 //	}
 //
+// # Options
+//
+// Patterns accepts standard glob syntax (e.g. ".env.*", "*.env"). If no
+// patterns are provided, the scanner defaults to [".env"].
+//
+// ExcludeDirs is matched against each directory component of the path, so
+// listing "node_modules" will skip it at any depth in the tree.
+//
 // The scanner does not perform any analysis; use the analyzer package to
 // detect missing, duplicate, or sensitive keys across the collected results.
 package scanner
