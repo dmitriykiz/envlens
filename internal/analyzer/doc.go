@@ -9,6 +9,10 @@
 //   - Empty values: keys that are defined but have no associated value,
 //     which may indicate incomplete configuration.
 //
+// The primary entry point is [Analyze], which accepts a filename, a slice of
+// parsed entries, and an optional slice of reference keys. It returns an
+// [AnalysisResult] containing categorised findings for each issue type.
+//
 // Typical usage:
 //
 //	entries, err := parser.ParseFile(".env")
