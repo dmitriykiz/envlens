@@ -101,3 +101,17 @@ func TestScore_CommentsIgnored(t *testing.T) {
 		t.Errorf("expected score 100, got %d", r.Score)
 	}
 }
+
+func TestScore_EmptyFile(t *testing.T) {
+	r := Score(".env", []parser.Entry{})
+	// An empty file has no violations, so it should score 100.
+	if r.Score != 100 {
+		t.Errorf("expected score 100 for empty file, got %d", r.Score)
+	}
+	if r.Grade != GradeA {
+		t.Errorf("expected grade A for empty file, got %s", r.Grade)
+	}
+	if len(r.Penalties) != 0 {
+		t.Errorf("expected no penalties for empty file, got %v", r.Penalties)
+	}
+}
