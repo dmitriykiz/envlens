@@ -22,7 +22,13 @@
 //   - [StrategyPermissive] – leaves unresolvable references as-is and
 //     records a warning in [Result.Warnings].
 //
-// Resolution is performed in a single pass; forward references are supported
-// because [os.Expand] is used as the expansion engine and the full index is
-// built before expansion begins.
+// # Resolution order
+//
+// Resolution is performed in a single pass over the entries in the order
+// they appear in the file. An entry's value is expanded using all previously
+// defined entries plus the host environment, so later entries can reference
+// earlier ones but not vice versa. The full key index is built before
+// expansion begins, which means forward references are syntactically
+// recognised but their values will be empty (or trigger an error under
+// [StrategyStrict]).
 package resolver
