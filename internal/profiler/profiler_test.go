@@ -93,3 +93,10 @@ func TestBuild_SkipsComments(t *testing.T) {
 		t.Errorf("TotalKeys: want 1, got %d", prof.TotalKeys)
 	}
 }
+
+func TestBuild_NonExistentFile(t *testing.T) {
+	_, err := profiler.Build([]string{"/nonexistent/path/.env"})
+	if err == nil {
+		t.Error("expected error for non-existent file, got nil")
+	}
+}
