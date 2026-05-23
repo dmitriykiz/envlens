@@ -49,6 +49,32 @@ func TestWriteText_WithIssues(t *testing.T) {
 	}
 }
 
+func TestWriteText_MultipleReports(t *testing.T) {
+	var buf bytes.Buffer
+	reports := []reporter.Report{
+		{
+			FilePath: ".env",
+			Result:   analyzer.Result{},
+		},
+		{
+			FilePath: "services/api/.env",
+			Result: analyzer.Result{
+				Duplicates: []string{"PORT"},
+			},
+		},
+	}
+	if err := reporter.WriteText(&buf, reports); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	out := buf.String()
+	if !strings.Contains(out, ".env") {
+		t.Errorf("expected first file path in output, got: %s", out)
+	}
+	if !strings.Contains(out, "services/api/.env") {
+		t.Errorf("expected second file path in output, got: %s", out)
+	}
+}
+
 func TestSummary_OK(t *testing.T) {
 	r := reporter.Report{FilePath: ".env", Result: analyzer.Result{}}
 	got := reporter.Summary(r)
