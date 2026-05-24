@@ -57,7 +57,23 @@ func ExportCSV(w io.Writer, fileEntries map[string][]parser.Entry) error {
 	}
 
 	cw.Flush()
-	return cw.Error()
+	if err := cw.Error(); err != nil {
+		return fmt.Errorf("exporter: csv flush: %w", err)
+	}
+	return nil
+}
+
+// Export dispatches to the appropriate export function based on the given
+// Format. It returns an error if the format is not recognised.
+func Export(w io.Writer, fileEntries map[string][]parser.Entry, format Format) error {
+	switch format {
+	case FormatJSON:
+		return ExportJSON(w, fileEntries)
+	case FormatCSV:
+		return ExportCSV(w, fileEntries)
+	default:
+		return fmt.Errorf("exporter: unsupported format %q", format)
+	}
 }
 
 // flatten converts a map of file → entries into an ordered slice of Records.
