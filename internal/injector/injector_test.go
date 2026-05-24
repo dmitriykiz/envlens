@@ -77,6 +77,13 @@ func TestInject_SkipsCommentsAndBlanks(t *testing.T) {
 	}
 }
 
+func TestInject_FileNotFound(t *testing.T) {
+	_, err := injector.Inject("/nonexistent/path/.env", injector.Options{})
+	if err == nil {
+		t.Fatal("expected error for missing file, got nil")
+	}
+}
+
 func TestWriteReport_Output(t *testing.T) {
 	results := []injector.Result{
 		{Key: "FOO", Value: "bar"},
